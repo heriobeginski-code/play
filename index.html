@@ -1,121 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sonic Experience</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background: radial-gradient(circle at center, #111 0%, #000 100%);
-            color: white;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 2rem;
-        }
-
-        .pulse {
-            animation: pulse-animation 2s infinite;
-        }
-
-        @keyframes pulse-animation {
-            0% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); opacity: 0.8; }
-        }
-    </style>
-</head>
-<body>
-
-    <div id="app" class="z-10 text-center">
-        <!-- Initial Interaction Layer -->
-        <div id="overlay" class="glass p-12 transition-all duration-1000 cursor-pointer hover:bg-white/5" onclick="initAudio()">
-            <h1 class="text-3xl font-light tracking-widest mb-6 uppercase">Begin Experience</h1>
-            <div class="w-16 h-16 mx-auto border-2 border-white/20 rounded-full flex items-center justify-center pulse">
-                <div class="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-white border-b-[10px] border-b-transparent ml-1"></div>
-            </div>
-        </div>
-
-        <!-- Player UI (Hidden until init) -->
-        <div id="player" class="hidden glass p-8 w-80 fade-in">
-            <div id="visualizer-gap" class="h-32 mb-4 flex items-end justify-center gap-1">
-                <!-- Visualizer bars will be injected here -->
-            </div>
-            <p class="text-sm tracking-widest text-white/60 uppercase mb-2">Now Playing</p>
-            <h2 class="text-xl font-medium mb-6">Atmospheric Resonance</h2>
-            <button onclick="togglePlayback()" class="text-white/80 hover:text-white transition-colors">
-                <span id="play-status">PAUSE</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Audio Element: Replace URL with your hosted audio file -->
-    <audio id="bg-music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
-    <script>
-        const audio = document.getElementById('bg-music');
-        const overlay = document.getElementById('overlay');
-        const player = document.getElementById('player');
-        const statusText = document.getElementById('play-status');
-        const visualizerGap = document.getElementById('visualizer-gap');
-
-        // Create simple visualizer bars
-        for(let i=0; i<12; i++) {
-            const bar = document.createElement('div');
-            bar.className = 'w-2 bg-white/20 rounded-t-full transition-all duration-300';
-            bar.style.height = '20%';
-            visualizerGap.appendChild(bar);
-        }
-
-        function initAudio() {
-            // Start audio
-            audio.play().catch(e => console.log("Autoplay blocked or error:", e));
-            
-            // Transition UI
-            overlay.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                player.classList.remove('hidden');
-                player.classList.add('animate-in', 'fade-in', 'zoom-in');
-                simulateVisualizer();
-            }, 1000);
-        }
-
-        function togglePlayback() {
-            if (audio.paused) {
-                audio.play();
-                statusText.innerText = "PAUSE";
-            } else {
-                audio.pause();
-                statusText.innerText = "PLAY";
-            }
-        }
-
-        function simulateVisualizer() {
-            const bars = visualizerGap.querySelectorAll('div');
-            setInterval(() => {
-                if(!audio.paused) {
-                    bars.forEach(bar => {
-                        const height = Math.random() * 80 + 20;
-                        bar.style.height = `${height}%`;
-                        bar.style.backgroundColor = `rgba(255,255,255,${height/100})`;
-                    });
-                }
-            }, 150);
-        }
-    </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>play</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
